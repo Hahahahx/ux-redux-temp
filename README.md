@@ -57,6 +57,55 @@ default被应用在父级路由引导子集路由时的默认路由，如顶级�
 新建`__Component`目录，来存放当前路由所依赖的业务组件。同时如果是与页面紧密耦合的
 状态逻辑也应该是在该目录下新建`__Module`来存放状态。
 
+所生成的路由映射表`router.ts`:
+```typescript
+import Page from '@/pages/index.tsx';
+export const routeConfig = [
+    {
+        noLazy: true,
+        child: [
+            {
+                default: true,
+                child: [],
+                componentPath: 'pages/login/index.tsx',
+                path: '/login'
+            },
+            {
+                child: [],
+                componentPath: 'pages/main/index.tsx',
+                path: '/main'
+            }
+        ],
+        componentPath: 'pages/index.tsx',
+        path: '',
+        component: Page
+    }
+]
+```
+可见，静态路由会有component属性。我们独立封装了React-router以便适配生成的路由映射表：
+```typescript
+import { Routers } from '@/components/RouterContainer/Routers';
+import { routeConfig } from '@/config/router';
+import NoMatch from '@/pages/__Component/NoMatch';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routers
+        routers={routeConfig}
+        noMatch={
+          () => <NoMatch/>
+        }
+        intercept={(route) => {
+
+        }} />
+    </BrowserRouter>
+  );
+}
+```
+配备了路由拦截器 `intercept` 该方法是在每次路由引导前处理，
+但我也没用过，暂时不知道效果是否会如预期一般，不建议使用
+
 ### 二、状态管理
 >在项目需求出来后就可以进行业务状态层的编写了。
 

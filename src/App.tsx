@@ -13,7 +13,6 @@ function App() {
           () => <NoMatch/>
         }
         intercept={(route) => {
-
         }} />
     </BrowserRouter>
   );
