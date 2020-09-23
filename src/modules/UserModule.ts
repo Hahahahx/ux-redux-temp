@@ -1,8 +1,10 @@
 import {Action} from '@/components/Provider';
+import UserApi from '@/modules/service/UserApi';
+import {User} from '@/modules/model/User';
 
 export class UserModule{
 
-    static user = 'UX';
+    static user = new User();
     static login = false;
 
     @Action
@@ -10,10 +12,10 @@ export class UserModule{
     }
 
     static reqUser() {
-        setTimeout(() => {
-            UserModule.user = 'ddd';
+        UserApi.GetUserInfo('id1').then(res=>{
+            UserModule.user = res.result
             UserModule.update()
-        }, 1000);
+        })
     }
 }
 

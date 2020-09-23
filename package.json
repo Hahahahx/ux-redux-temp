@@ -1,9 +1,9 @@
 {
-  "name": "react-redux-temp",
+  "name": "{{name}}",
   "author": {
-    "name": "ux"
+    "name": "{{author}}"
   },
-  "description": "template",
+  "description": "{{description}}",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -49,8 +49,7 @@
     "react-router-dom": "^5.2.0",
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-saga": "^1.1.3"
+    "redux-devtools-extension": "^2.13.8"
   },
   "devDependencies": {
     "antd-dayjs-webpack-plugin": "^1.0.1",

@@ -6,18 +6,19 @@ import {useModule} from '@/components/Provider';
 
 const Main = () => {
 
-    const {UserModule} = useModule();
+    const {UserModule,FileModule} = useModule();
 
     return (
         <div style={{ textAlign: 'center' }}>
-            <div className='page'>Main-Page</div>
+            <div className='page'>
+                Main-Page
+                {UserModule.user.name}
+            </div>
             <Button ghost onClick={()=>{
                 UserModule.reqUser();
             }}>Toggle-Name</Button>
         </div>
     )
 }
-
-
 
 export default React.memo(Main, () => true);

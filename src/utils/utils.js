@@ -2,37 +2,44 @@ import React from 'react';
 import { Select, Radio } from 'antd'
 const Option = Select.Option;
 export default {
-    formateDate(time){
-        if(!time)return '';
-        let date = new Date(time*1000);
-        return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+
+    formateDate(time) {
+        if (!time) return '';
+        let date = new Date(time * 1000);
+        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
     },
-	formateTime(timestamp){
-		var mistiming = Math.round(new Date() / 1000)-timestamp;
-		var postfix = mistiming>0 ? '前' : '后'
-		mistiming = Math.abs(mistiming)
-		var arrr = ['年','个月','星期','天','小时','分钟','秒'];
-		var arrn = [31536000,2592000,604800,86400,3600,60,1];
-	 
-		for(var i=0; i<7; i++){
-			var inm = Math.floor(mistiming/arrn[i])
-			if(inm!==0){
-				return inm+arrr[i] + postfix
-			}
-		}
-	},
-    pagination(data,callback){
+    S4() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    },
+    NewGuid() {
+        return (this.S4() + this.S4()+ this.S4()+ this.S4()  + this.S4() );
+    },
+    formateTime(timestamp) {
+        var mistiming = Math.round(new Date() / 1000) - timestamp;
+        var postfix = mistiming > 0 ? '前' : '后'
+        mistiming = Math.abs(mistiming)
+        var arrr = ['年', '个月', '星期', '天', '小时', '分钟', '秒'];
+        var arrn = [31536000, 2592000, 604800, 86400, 3600, 60, 1];
+
+        for (var i = 0; i < 7; i++) {
+            var inm = Math.floor(mistiming / arrn[i])
+            if (inm !== 0) {
+                return inm + arrr[i] + postfix
+            }
+        }
+    },
+    pagination(data, callback) {
         return {
-            onChange:(current)=>{
+            onChange: (current) => {
                 callback(current)
             },
-            current:data.result.page,
-            pageSize:data.result.page_size,
+            current: data.result.page,
+            pageSize: data.result.page_size,
             total: data.result.total_count,
-            showTotal:()=>{
+            showTotal: () => {
                 return `共${data.result.total_count}条`
             },
-            showQuickJumper:true
+            showQuickJumper: true
         }
     },
     // 格式化金额,单位:分(eg:430分=4.30元)
@@ -65,22 +72,22 @@ export default {
         number += '';
         return number.replace(/(\d{3})\d*(\d{4})/g, '$1***********$2')
     },
-	getRadioList(data){
-		if(!data){
-		    return [];
-		}
-		let radios = [];
-		data.map(item=>{
-			return radios.push(<Radio value={item.value} key={item.value}>{item.name}</Radio>);
-		});
-		return radios;
-	},
-    getOptionList(data){
-        if(!data){
+    getRadioList(data) {
+        if (!data) {
+            return [];
+        }
+        let radios = [];
+        data.map(item => {
+            return radios.push(<Radio value={item.value} key={item.value}>{item.name}</Radio>);
+        });
+        return radios;
+    },
+    getOptionList(data) {
+        if (!data) {
             return [];
         }
         let options = [] //[<Option value="0" key="all_key">全部</Option>];
-        data.map((item)=>{
+        data.map((item) => {
             return options.push(<Option value={item.id} key={item.id}>{item.name}</Option>)
         })
         return options;
@@ -104,51 +111,51 @@ export default {
             })
         }
     },
-	filterDelete(record){
-		const del_list = { 0: <span>删除</span>, 1: <span style={{color: "#f45656"}}>已删除</span>};
-		return del_list[record.is_del];
-	},
-	themeColor(color){
-		window.less.modifyVars(
-			{
-				'@primary-color': color,
-				'@link-color': color,
-				'@btn-primary-bg': color,
-			}
-		).then(() => {}).catch(error => {});
-	},
-	mertic(bytes){
-		if (isNaN(bytes)) {
-			return '';
-		}
-		var symbols = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-		var exp = Math.floor(Math.log(bytes)/Math.log(2));
-		if (exp < 1) {
-			exp = 0;
-		}
-		var i = Math.floor(exp / 10);
-		bytes = bytes / Math.pow(2, 10 * i);
-		
-		if (bytes.toString().length > bytes.toFixed(2).toString().length) {
-			bytes = bytes.toFixed(2);
-		}
-		return bytes + ' ' + symbols[i];
-	},
-	merticKB(bytes){
-		if (isNaN(bytes)) {
-			return '';
-		}
-		var symbols = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-		var exp = Math.floor(Math.log(bytes)/Math.log(2));
-		if (exp < 1) {
-			exp = 0;
-		}
-		var i = Math.floor(exp / 10);
-		bytes = bytes / Math.pow(2, 10 * i);
-		
-		if (bytes.toString().length > bytes.toFixed(2).toString().length) {
-			bytes = bytes.toFixed(2);
-		}
-		return bytes + ' ' + symbols[i];
-	}
+    filterDelete(record) {
+        const del_list = { 0: <span>删除</span>, 1: <span style={{ color: "#f45656" }}>已删除</span> };
+        return del_list[record.is_del];
+    },
+    themeColor(color) {
+        window.less.modifyVars(
+            {
+                '@primary-color': color,
+                '@link-color': color,
+                '@btn-primary-bg': color,
+            }
+        ).then(() => { }).catch(error => { });
+    },
+    mertic(bytes) {
+        if (isNaN(bytes)) {
+            return '';
+        }
+        var symbols = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        var exp = Math.floor(Math.log(bytes) / Math.log(2));
+        if (exp < 1) {
+            exp = 0;
+        }
+        var i = Math.floor(exp / 10);
+        bytes = bytes / Math.pow(2, 10 * i);
+
+        if (bytes.toString().length > bytes.toFixed(2).toString().length) {
+            bytes = bytes.toFixed(2);
+        }
+        return bytes + ' ' + symbols[i];
+    },
+    merticKB(bytes) {
+        if (isNaN(bytes)) {
+            return '';
+        }
+        var symbols = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        var exp = Math.floor(Math.log(bytes) / Math.log(2));
+        if (exp < 1) {
+            exp = 0;
+        }
+        var i = Math.floor(exp / 10);
+        bytes = bytes / Math.pow(2, 10 * i);
+
+        if (bytes.toString().length > bytes.toFixed(2).toString().length) {
+            bytes = bytes.toFixed(2);
+        }
+        return bytes + ' ' + symbols[i];
+    }
 }

@@ -2,11 +2,9 @@ import React, {memo} from 'react';
 import {RouterView} from '@/components/RouterContainer/Routers';
 import {LinkTo} from '@/components/RouterContainer/LinkTo';
 import {Layout} from 'antd';
-// import { usePageStore } from '@/components/Provider/PageProvider';
 import {PatchLink} from '@/components/RouterContainer/PatchLink';
 import {Heart} from './__Component/Heart';
 import Selection from '@/components/Selection/Selection';
-import {useSelector} from 'react-redux';
 import {useModule} from '@/components/Provider';
 
 
