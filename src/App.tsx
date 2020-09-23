@@ -1,12 +1,12 @@
 import React from 'react';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Routers } from './components/RouterContainer/Routers';
 import { routeConfig } from '@/config/router';
 import NoMatch from './pages/__Component/NoMatch';
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routers
         routers={routeConfig}
         noMatch={
@@ -15,7 +15,7 @@ function App() {
         intercept={(route) => {
 
         }} />
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

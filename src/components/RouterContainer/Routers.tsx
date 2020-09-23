@@ -1,7 +1,7 @@
-import React, { createContext, ReactElement, FC, useContext } from "react";
-import { RouterParams } from ".";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { LazyComponent } from "./LazyComponent";
+import React, {createContext, FC, ReactElement, useContext} from 'react';
+import {RouterParams} from '.';
+import {Redirect, Route, Switch} from 'react-router-dom';
+import {LazyComponent} from './LazyComponent';
 
 export const RouterContext = createContext<ReactElement | null>(null);
 
@@ -13,8 +13,10 @@ export const Routers: FC<RouterParams> = ({ intercept, routers, noMatch }) => {
 
     const defaultRouter = routers.find(item => item.default && item.path)
 
+    // 默认路由配置
     let fromPath: RegExpMatchArray | null | undefined | string
         = defaultRouter && defaultRouter.path.match(/^\/[a-z]+/g)
+    // 寻找其父级路由以便重定向映射
     if (fromPath) {
         fromPath.pop();
         fromPath = fromPath.length ? fromPath.join('') : '/';
@@ -23,7 +25,7 @@ export const Routers: FC<RouterParams> = ({ intercept, routers, noMatch }) => {
     return (
         <Switch>
             {routers.map((route: any, index: number) =>
-                // 此处返回拦截路由，详见InterceptRoute，由于再次包装以后Switch无法识别Route了，所以不使用InterceptRoute而直接使用其解构。
+                // 此处返回拦截路由，详见InterceptRoute，由于再次包装以后Switch无法识别Route了，所以不使用InterceptRoute而直接使用其结构。
                 (intercept && intercept(route)) || (route.child.length ?
                     <RouterContext.Provider value={<Routers routers={route.child} noMatch={noMatch} />} key={index}>
                         <Route exact={!!route.exact} path={route.path} render={() =>
@@ -48,6 +50,5 @@ export const Routers: FC<RouterParams> = ({ intercept, routers, noMatch }) => {
  * 对外暴露的子集路由
  */
 export const RouterView = () => {
-    const Router = useContext(RouterContext);
-    return Router
+    return useContext(RouterContext)
 }

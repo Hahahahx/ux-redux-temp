@@ -1,32 +1,26 @@
-import React, { memo } from 'react';
-import { RouterView } from '@/components/RouterContainer/Routers';
-import { LinkTo } from '@/components/RouterContainer/LinkTo';
-import { Layout } from 'antd';
+import React, {memo} from 'react';
+import {RouterView} from '@/components/RouterContainer/Routers';
+import {LinkTo} from '@/components/RouterContainer/LinkTo';
+import {Layout} from 'antd';
 // import { usePageStore } from '@/components/Provider/PageProvider';
-import { PatchLink } from '@/components/RouterContainer/PatchLink';
-import { Heart } from './__Component/Heart';
+import {PatchLink} from '@/components/RouterContainer/PatchLink';
+import {Heart} from './__Component/Heart';
 import Selection from '@/components/Selection/Selection';
-import { useBusineesStore } from '@/components/Provider/BusinessProvider';
+import {useSelector} from 'react-redux';
+import {useModule} from '@/components/Provider';
 
 
 const Index = () => {
 
-    // const { setLoading } = usePageStore(({ PageModule }) => ({
-    //     setLoading: PageModule.setLoading
-    // }))
+    const {UserModule} = useModule();
 
-    const { user } = useBusineesStore(({ UserModule }) => ({
-        user: UserModule.user
-    }))
-
-    console.log('index')
 
     return (
         <Selection>
             <Layout className='layout'>
                 <div className='logo'>
-                    <div className='text'>{user}</div>
-                    <Heart />
+                    <div className='text'>{UserModule.user}</div>
+                    <Heart/>
                 </div>
                 <div className='bread'>
                     <PatchLink
@@ -41,10 +35,10 @@ const Index = () => {
                         noMatch
                     </LinkTo>
                 </div>
-                <RouterView />
+                <RouterView/>
             </Layout>
         </Selection>
-    )
-}
+    );
+};
 export default memo(Index, () => true);
 

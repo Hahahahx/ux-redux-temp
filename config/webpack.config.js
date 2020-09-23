@@ -163,7 +163,7 @@ module.exports = function (webpackEnv) {
       'react-app-polyfill/ie9',
       'react-app-polyfill/stable',
       // mobx警告
-      'mobx-react-lite/batchingForReactDom',
+      // 'mobx-react-lite/batchingForReactDom',
       // Include an alternative client for WebpackDevServer. A client's job is to
       // connect to WebpackDevServer by a socket and get notified about changes.
       // When you save a file, the client will either apply hot updates (in case

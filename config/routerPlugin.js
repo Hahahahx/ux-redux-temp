@@ -7,7 +7,7 @@ const path = require('path')
  */
 class RouterPlugin {
 
-    constructor({ pagePath, output }) {
+    constructor({pagePath, output}) {
         if (!pagePath) {
             throw new Error('`pagePath not undefined`')
         }
@@ -22,47 +22,40 @@ class RouterPlugin {
         // watchRun 是异步 hook，使用 tapAsync 触及它，还可以使用 tapPromise/tap(同步)
         // 在自动编译前生成路由映射表
         compiler.hooks.watchRun.tapAsync('RouterPlugin', (compilation, callback) => {
-
-            const staticRoute = []
-
-            // 读取文件目录生成路由对象
-            const routers = getDir(this.pagePath, this.componentBase, staticRoute);
-            if (!this.route || JSON.stringify(this.route) !== JSON.stringify(routers)) {
-                let str = JSON.stringify([routers], null, 4);
-                str = str.replace(/"/g, '')
-                console.log('[自动写入路由配置，成功]')
-                this.route = routers
-                fs.writeFileSync(
-                    this.output + '/router.ts',
-                    staticRoute.map(item => item).join('') +
-                    '// 自动装配路由映射表\n' + 'export const routeConfig = ' + str,
-                    { flag: 'w', encoding: 'utf-8', mode: '0666' }
-                )
-            }
-
+            this.buildRouter();
             callback();
         });
 
         // 在构建项目时生成路由映射表
         compiler.hooks.beforeRun.tapAsync('RouterPlugin', (compilation, callback) => {
-
-            const staticRoute = []
-            // 读取文件目录生成路由对象
-            const routers = getDir(this.pagePath, this.componentBase, staticRoute);
-            let str = JSON.stringify([routers], null, 4);
-            str = str.replace(/"/g, '')
-            console.log('√[自动写入路由配置，成功]')
-
-            fs.writeFileSync(
-                this.output + '/router.ts',
-                staticRoute.map(item => item).join('') +
-                '// 自动装配路由映射表\n' + 'export const routeConfig = ' + str,
-                { flag: 'w', encoding: 'utf-8', mode: '0666' }
-            )
-
+            this.buildRouter();
             callback();
         });
 
+    }
+
+    buildRouter() {
+        // import的静态路由
+        const staticRoute = []
+        // 读取文件目录生成路由对象
+        const routers = getDir(this.pagePath, this.componentBase, staticRoute);
+        // 检测是否需要重新生成路由，即pages是否发生了改变，此处做的比较简单只是转换成JSON字符串进行比对
+        if (!this.route || JSON.stringify(this.route) !== JSON.stringify(routers)) {
+            // 格式化字符串
+            let str = JSON.stringify([routers], null, 4);
+            // JSON文件转换换成js文件
+            str = str.replace(/"/g, '')
+
+            console.log('[自动写入路由配置，成功]')
+            // 更新路由JSON字符串
+            this.route = routers
+
+            fs.writeFileSync(
+                this.output + '/router.ts',
+                staticRoute.map(item => item).join('') + 'export const routeConfig = ' + str,
+                {flag: 'w', encoding: 'utf-8', mode: '0666'}
+            )
+        }
     }
 }
 
@@ -125,11 +118,11 @@ function titleCase(str) {
     if (str[0] === '/') {
         str = str.slice(1)
     }
-    var newStr = str.split(" ");
+    var newStr = str.split(' ');
     for (var i = 0; i < newStr.length; i++) {
         newStr[i] = newStr[i].slice(0, 1).toUpperCase() + newStr[i].slice(1).toLowerCase();
     }
-    return newStr.join(" ");
+    return newStr.join(' ');
 }
 
 function isRoute(string) {

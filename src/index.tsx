@@ -2,21 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BusinessProvider } from '@/components/Provider/BusinessProvider/BusinessProvider';
-import { WebSocket } from '@/components/WebSocket/WebSocket';
-import { wsList, config } from '@/config/websocketConfig';
-import { PageProvider } from './components/Provider/PageProvider/PageProvieder';
+import {WebSocket} from '@/components/WebSocket/WebSocket';
+import {wsList, config} from '@/config/websocketConfig';
+import ReduxProvider from '@/components/Provider/Provider';
 import './index.less';
 
 ReactDOM.render(
-  <PageProvider>
-    <BusinessProvider>
-      <WebSocket wsList={wsList} config={config} >
-        <App />
-      </WebSocket>
-    </BusinessProvider>
-  </PageProvider>,
-  document.getElementById('root')
+    <ReduxProvider>
+        <WebSocket wsList={wsList} config={config}>
+            <App/>
+        </WebSocket>
+    </ReduxProvider>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -1,18 +1,20 @@
-import { action, observable } from 'mobx'
+import {Action} from '@/components/Provider';
 
-export class UserModule {
+export class UserModule{
 
-    @observable
-    user = 'UX'
+    static user = 'UX';
+    static login = false;
 
-
-    @action
-    setUser = () => {
-        if(this.user === 'Hux'){
-            this.user = 'UX'
-        }else{
-            this.user = 'Hux'
-        }
+    @Action
+    private static update() {
     }
 
+    static reqUser() {
+        setTimeout(() => {
+            UserModule.user = 'ddd';
+            UserModule.update()
+        }, 1000);
+    }
 }
+
+
