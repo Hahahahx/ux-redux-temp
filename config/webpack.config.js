@@ -29,7 +29,7 @@ const AntdDayJsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 // 自定义主题配置
-const AntdThemePlugin = require('./antdThemePlugin');
+// const AntdThemePlugin = require('./antdThemePlugin');
 const RouterPlugin = require('./routerPlugin');
 
 const appPackageJson = require(paths.appPackageJson);
@@ -220,7 +220,6 @@ module.exports = function (webpackEnv) {
     optimization: {
       minimize: isEnvProduction,
       minimizer: [
-        AntdThemePlugin,
         // This is only used in production mode
         new TerserPlugin({
           terserOptions: {
@@ -566,6 +565,7 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      // AntdThemePlugin,
       // 自定义路由配置插件
       new RouterPlugin({
         pagePath: path.join(paths.appSrc, 'pages'),
