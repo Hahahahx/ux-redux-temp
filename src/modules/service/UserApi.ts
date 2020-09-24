@@ -14,9 +14,15 @@ class UserApi {
     }
 
     GetUserInfo(id: string): Promise<Response<User>> {
-        return request.get('/user/userInfo', {id})
-            .then(res=>{
-                return res.result;          // as User
+        return request.get('/user/userInfo.json', {id})
+            .then(res => {
+                if(res.code === 200){
+                    return res;          // as User
+                }else{
+
+                }
+            }, rej => {
+                return rej;
             });
     }
 }

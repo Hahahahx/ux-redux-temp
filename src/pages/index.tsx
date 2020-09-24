@@ -17,7 +17,7 @@ const Index = () => {
         <Selection>
             <Layout className='layout'>
                 <div className='logo'>
-                    <div className='text'>{UserModule.user}</div>
+                    <div className='text'>{UserModule.user.name}</div>
                     <Heart/>
                 </div>
                 <div className='bread'>

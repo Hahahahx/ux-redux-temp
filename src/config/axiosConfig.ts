@@ -13,7 +13,7 @@ import qs from 'querystring';
 export const instance = Axios.create();
 
 const host = window.location.host;
-instance.defaults.baseURL = '/api';
+instance.defaults.baseURL = '/mock';
 instance.defaults.withCredentials = true;
 instance.defaults.timeout = 5000;
 instance.interceptors.request.use(
