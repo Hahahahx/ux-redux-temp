@@ -90,9 +90,9 @@ export function Action(target: any, property: string, descriptor: any) {
     const oldFunc = descriptor.value;
     descriptor.value = async function () {
         try {
-
             const value = await oldFunc.apply(this);
             const module = { ...this };
+            console.log(module)
             // 同步dispatch
             store.dispatch({
                 type: target.constructor.name + '_SET',

@@ -157,51 +157,72 @@ export interface LoginParams {
 
 可见，所有对后端反馈数据的定义我们都可以也应该在services中完成。
 
-Modules，我们约束了状态类的写法，是因为需要在自定义的状态hook中取到对应的Module，
-切保证其能获取到对应的类型，状态类可能会有一些不一样，但大体来说没有什么区别，
-它仍然是一个类对象，只不过需要以静态去定义所有的状态类中的属性，如UserModule.ts：
+Modules，我们约束了状态类的写法，你只需要确保在Config配置中导入的状态类实例对象
+与状态类同名即可，如UserModule.ts：
 ```typescript
-import {Action} from '@/components/Provider';
-import UserApi from '@/modules/service/UserApi';
-import {User} from '@/modules/model/User';
+import User from "@/modules/UserModule"
+import FileModule from "@/modules/FileModule"
+export const modules = {UserModule:User,FileModule}
+```
+不管UserModule的实例对象叫什么，确保它仍然是赋值给属性"UserModule"的即可，
+因为UserModule才是该状态类的真正的名字，我们在解析的时候使用了constructor.name。
+```typescript
+class FileModule {
 
-export class UserModule{
+    @LocalStorage
+    @SesstionStorage
+    filename = 'FileModule';
 
-    static user = new User();
-    static login = false;
+    @SesstionStorage
+    fileType = 'txt'
+
+    @Update
+    private update() { }
 
     @Action
-    private static update() {
+    reqFile() {
+        return UserApi.GetUserInfo('id1').then(res => {
+            this.filename = 'FileModule被Action更新了';
+            this.fileType = 'action'
+        })
     }
 
-    static reqUser() {
-        UserApi.GetUserInfo('paramsid').then(res=>{
-            UserModule.user = res.result
-            UserModule.update()
-        })
+    reqFilebyUpdate() {
+        this.filename = 'FileModule被Update更新了';
+        this.fileType = 'update'
+        this.update()
     }
 }
 ```
-每一个状态类都必须实现一个`update`静态函数，并为其添加Action装饰器，
-见名知意，在我们改变Module中的状态时，需要调用该方法去通知redux更新它，
-我们倾向于在状态类中完成对状态的操作，所以它应该是`private`私有的。
+每一个类都可以提供一个update函数来更新你所做的状态改变，该update()必须要被@Update装饰，
+且命名必须为"update"。
+
+你也可以使用@Action，但是需要确保所装饰的函数的返回值是一个Promise对象，且你的状态修改也是在该流程中完成的。
+
+被@SessionStorage和@LocalStorage装饰的字段会被注册到内存和本地中。<br/>
+提供了deleteSession(moduleName:string,property?:string)和deleteLocal()可以让你自由的删除他们。<br/>
+你需要确保你不会在你的事件流中使用到被删除的属性。因为被装饰的属性会不断的在更新状态中更新对应的Local或Session
 
 在组件中使用：
 ```typescript
 
 const Main = () => {
 
-    const {UserModule,FileModule} = useModule();
+    const { FileModule } = useModule()
 
     return (
         <div style={{ textAlign: 'center' }}>
             <div className='page'>
-                Main-Page
-                {UserModule.user.name}
+                FileModule-filename:{FileModule.filename}
             </div>
-            <Button ghost onClick={()=>{
-                UserModule.reqUser();
-            }}>Toggle-Name</Button>
+            
+            <Button ghost onClick={() => {
+                FileModule.reqFile()
+            }}>ChangeFileModuleByAction</Button>
+            
+            <Button ghost onClick={() => {
+                FileModule.reqFilebyUpdate()
+            }}>ChangeUserModuleByUpdate</Button>
         </div>
     )
 }

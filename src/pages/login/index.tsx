@@ -5,7 +5,7 @@ import React from 'react'
 
 const Login = () => {
 
-    const { FileModule, UserModule } = useModule()
+    const { FileModule } = useModule()
 
     return (
         <div style={{ textAlign: 'center' }}>
@@ -13,8 +13,11 @@ const Login = () => {
                 FileModule-filename:{FileModule.filename}
             </div>
             <Button ghost onClick={() => {
-                UserModule.reqUser()
-            }}>ChangeUserModule</Button>
+                FileModule.reqFile()
+            }}>ChangeFileModuleByAction</Button>
+            <Button ghost onClick={() => {
+                FileModule.reqFilebyUpdate()
+            }}>ChangeUserModuleByUpdate</Button>
         </div>
     )
 }

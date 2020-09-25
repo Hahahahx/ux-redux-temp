@@ -1,4 +1,5 @@
-import { LocalStorage, SesstionStorage, Update } from "@/components/Provider/decorators";
+import { Action, LocalStorage, SesstionStorage, Update } from "@/components/Provider/decorators";
+import UserApi from "./service/UserApi";
 
 
 
@@ -12,13 +13,20 @@ class FileModule {
     fileType = 'txt'
 
     @Update
-    private update() {
+    private update() { }
+
+    @Action
+    reqFile() {
+        return UserApi.GetUserInfo('id1').then(res => {
+            this.filename = 'FileModule被Action更新了';
+            this.fileType = 'action'
+        })
     }
 
-    reqFile() {
-        this.filename = 'FileModule被更新了';
-        this.fileType = 'png'
-        this.update();
+    reqFilebyUpdate() {
+        this.filename = 'FileModule被Update更新了';
+        this.fileType = 'update'
+        this.update()
     }
 }
 
