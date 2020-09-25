@@ -1,22 +1,22 @@
 import React from 'react'
 import { Button } from 'antd'
-import {useModule} from '@/components/Provider';
+import { useModule } from '@/components/Provider/Provider';
 
 
 
 const Main = () => {
 
-    const {UserModule,FileModule} = useModule();
+    const { UserModule, FileModule } = useModule();
 
     return (
         <div style={{ textAlign: 'center' }}>
             <div className='page'>
-                Main-Page
-                {UserModule.user.name}
+                FileModule - fileType:{FileModule.fileType} <br/>
+                UserModule - user:name:{UserModule.user.name}
             </div>
-            <Button ghost onClick={()=>{
-                UserModule.reqUser();
-            }}>Toggle-Name</Button>
+            <Button ghost onClick={() => {
+                FileModule.reqFile();
+            }}>ChangeFileModule</Button>
         </div>
     )
 }

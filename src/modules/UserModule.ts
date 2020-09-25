@@ -1,22 +1,19 @@
-import {Action} from '@/components/Provider';
 import UserApi from '@/modules/service/UserApi';
-import {User} from '@/modules/model/User';
+import { User } from '@/modules/model/User';
+import { Action } from '@/components/Provider/decorators';
 
-export class UserModule{
+class UserModule {
 
-    static user = new User();
-    static login = false;
+    user = new User();
+    login = false;
 
     @Action
-    private static update() {
-    }
-
-    static reqUser() {
-        UserApi.GetUserInfo('id1').then(res=>{
-            UserModule.user = res.result
-            UserModule.update()
+    reqUser() {
+        return UserApi.GetUserInfo('id1').then(res => {
+            this.user = res.result;
         })
     }
 }
 
 
+export default new UserModule();

@@ -5,7 +5,7 @@ import {Layout} from 'antd';
 import {PatchLink} from '@/components/RouterContainer/PatchLink';
 import {Heart} from './__Component/Heart';
 import Selection from '@/components/Selection/Selection';
-import {useModule} from '@/components/Provider';
+import { useModule } from '@/components/Provider/Provider';
 
 
 const Index = () => {

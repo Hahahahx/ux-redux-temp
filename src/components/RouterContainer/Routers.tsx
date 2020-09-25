@@ -44,6 +44,7 @@ export const Routers: FC<RouterParams> = ({ intercept, routers, noMatch }) => {
     )
 }
 
+// 区分是否是动态路由组件
 const Component = ({ componentPath, Component }: { componentPath: string, Component?: any }) => {
     return (
         Component ?

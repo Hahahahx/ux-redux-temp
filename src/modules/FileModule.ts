@@ -1,20 +1,26 @@
-export enum UserActionTypes {
-    SET_USER,
-    SET_LOGIN
-}
+import { LocalStorage, SesstionStorage, Update } from "@/components/Provider/decorators";
 
 
-export class FileModule {
 
-    static filename = 'UX';
+class FileModule {
 
-    static reqUser(dispatch: any) {
-        const filename = 'ddd';
-        dispatch({
-            type: 'sed',
-            payload: {filename}
-        });
+    @LocalStorage
+    @SesstionStorage
+    filename = 'FileModule';
+
+    @SesstionStorage
+    fileType = 'txt'
+
+    @Update
+    private update() {
+    }
+
+    reqFile() {
+        this.filename = 'FileModule被更新了';
+        this.fileType = 'png'
+        this.update();
     }
 }
 
 
+export default new FileModule()
