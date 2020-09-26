@@ -52,8 +52,6 @@ const useTypeScript = fs.existsSync(paths.appTsConfig);
 // style files regexes
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
-const sassRegex = /\.(scss|sass)$/;
-const sassModuleRegex = /\.module\.(scss|sass)$/;
 const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
 
@@ -89,36 +87,11 @@ module.exports = function (webpackEnv) {
       {
         loader: require.resolve('css-loader'),
         options: cssOptions,
-      },
-      {
-        // Options for PostCSS as we reference these options twice
-        // Adds vendor prefixing based on your specified browser support in
-        // package.json
-        loader: require.resolve('postcss-loader'),
-        options: {
-          // Necessary for external CSS imports to work
-          // https://github.com/facebook/create-react-app/issues/2677
-          ident: 'postcss',
-          plugins: () => [
-            require('postcss-flexbugs-fixes'),
-            require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009',
-              },
-              stage: 3,
-            }),
-            // Adds PostCSS Normalize as the reset css with default options,
-            // so that it honors browserslist config in package.json
-            // which in turn let's users customize the target behavior as per their needs.
-            postcssNormalize(),
-          ],
-          sourceMap: isEnvProduction && shouldUseSourceMap,
-        },
-      },
+      }
     ].filter(Boolean);
     if (preProcessor) {
       const isLessOptions =
-        preProcessor === 'less-loader'
+        (preProcessor === 'less-loader')
           ? {
             lessOptions: {
               modifyVars: {
@@ -131,16 +104,43 @@ module.exports = function (webpackEnv) {
             sourceMap: true
           }
       loaders.push(
-        {
-          loader: require.resolve('resolve-url-loader'),
-          options: {
-            sourceMap: isEnvProduction && shouldUseSourceMap,
-          },
-        },
+        // {
+        //   loader: require.resolve('resolve-url-loader'),
+        //   options: {
+        //     sourceMap: isEnvProduction && shouldUseSourceMap,
+        //   },
+        // },
         {
           loader: require.resolve(preProcessor),
           options: isLessOptions,
-        }
+        },
+        {
+          // Options for PostCSS as we reference these options twice
+          // Adds vendor prefixing based on your specified browser support in
+          // package.json
+          loader: require.resolve('postcss-loader'),
+          options: {
+            // Necessary for external CSS imports to work
+            // https://github.com/facebook/create-react-app/issues/2677
+            ident: 'postcss',
+            plugins: () => [
+              require('postcss-flexbugs-fixes'),
+              require('postcss-preset-env')({
+                autoprefixer: {
+                  flexbox: 'no-2009',
+                },
+                stage: 3,
+              }),
+              // Adds PostCSS Normalize as the reset css with default options,
+              // so that it honors browserslist config in package.json
+              // which in turn let's users customize the target behavior as per their needs.
+              postcssNormalize(),
+            ],
+            syntax:require('postcss-less'),
+            sourceMap: isEnvProduction && shouldUseSourceMap,
+          },
+        },
+
       );
     }
     return loaders;
@@ -314,7 +314,8 @@ module.exports = function (webpackEnv) {
         .filter(ext => useTypeScript || !ext.includes('ts')),
       alias: {
         '@': paths.appSrc,
-        '@assets': path.join(paths.appSrc, '/assets'),
+        '@images': path.join(paths.appSrc, '/assets/images'),
+        '@styles': path.join(paths.appSrc, '/assets/styles'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
@@ -462,7 +463,7 @@ module.exports = function (webpackEnv) {
               test: cssRegex,
               exclude: cssModuleRegex,
               use: getStyleLoaders({
-                importLoaders: 1,
+                importLoaders: 2,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
               }),
               // Don't consider CSS imports dead code even if the
@@ -476,7 +477,7 @@ module.exports = function (webpackEnv) {
             {
               test: cssModuleRegex,
               use: getStyleLoaders({
-                importLoaders: 1,
+                importLoaders: 2,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: {
                   getLocalIdent: getCSSModuleLocalIdent,
@@ -488,7 +489,7 @@ module.exports = function (webpackEnv) {
               exclude: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 3,
+                  importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                 },
                 'less-loader'
@@ -499,7 +500,7 @@ module.exports = function (webpackEnv) {
               test: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 3,
+                  importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: {
                     getLocalIdent: getCSSModuleLocalIdent,
@@ -521,10 +522,10 @@ module.exports = function (webpackEnv) {
             //     },
             //     'sass-loader'
             //   ),
-              // Don't consider CSS imports dead code even if the
-              // containing package claims to have no side effects.
-              // Remove this when webpack adds a warning or an error for this.
-              // See https://github.com/webpack/webpack/issues/6571
+            // Don't consider CSS imports dead code even if the
+            // containing package claims to have no side effects.
+            // Remove this when webpack adds a warning or an error for this.
+            // See https://github.com/webpack/webpack/issues/6571
             //   sideEffects: true,
             // },
             // // Adds support for CSS Modules, but using SASS

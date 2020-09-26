@@ -8,8 +8,8 @@ class UserModule {
     login = false;
 
     @Action
-    reqUser() {
-        return UserApi.GetUserInfo('id1').then(res => {
+    actionUser() {
+        return UserApi.getUserInfo('id1').then(res => {
             this.user = res.result;
         })
     }

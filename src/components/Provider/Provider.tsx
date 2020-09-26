@@ -1,4 +1,4 @@
-import { modules } from '@/config/storeConfig';
+import { modules } from '@/config/moduleConfig';
 import React, { FC } from 'react';
 import { Provider, useSelector } from 'react-redux';
 import { combineReducers, createStore } from 'redux';

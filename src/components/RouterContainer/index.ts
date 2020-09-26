@@ -1,4 +1,4 @@
-import { ReactElement, CSSProperties } from 'react';
+import {ReactElement, CSSProperties} from 'react';
 
 export interface RouteParams {
     path: string
@@ -15,6 +15,8 @@ export interface RouterParams {
     intercept?: (route: RouteParams) => void | JSX.Element | ReactElement
     routers: Array<RouteParams>
     noMatch?: () => ReactElement | JSX.Element
+    before?: (location: Location) => void
+    after?: (location: Location) => void
 }
 
 export interface InterceptRouteParams {
@@ -35,7 +37,7 @@ export interface PatchLinkParams extends LinkParams {
 
 /**
  * onClick与onRequest均为点击事件
- * onClick无论如何都将生效，onRequest仅在页面发生置换时生效        
+ * onClick无论如何都将生效，onRequest仅在页面发生置换时生效
  */
 interface LinkParams {
     to: string

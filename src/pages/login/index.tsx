@@ -12,11 +12,13 @@ const Login = () => {
             <div className='page'>
                 FileModule-filename:{FileModule.filename}
             </div>
+
             <Button ghost onClick={() => {
-                FileModule.reqFile()
+                FileModule.actionFile()
             }}>ChangeFileModuleByAction</Button>
+            
             <Button ghost onClick={() => {
-                FileModule.reqFilebyUpdate()
+                FileModule.actionFileByUpdate()
             }}>ChangeUserModuleByUpdate</Button>
         </div>
     )

@@ -2,8 +2,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@assets/*": ["src/assets/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "@images/*": [
+        "src/assets/images/*"
+      ],
+      "@styles/*": [
+        "src/assets/styles/*"
+      ]
     },
     "target": "es5",
     "lib": [

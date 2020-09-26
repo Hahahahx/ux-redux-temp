@@ -8,12 +8,17 @@ import {request} from '@/modules/ajax/request';
 import {Response} from '@/modules/ajax/response';
 import {User} from '@/modules/model/User';
 
+
+/**
+ * 接口模块：*Api
+ * 接口函数：http方式+路由最后一级，返回Promise<Response<T>>对象 T为泛型，为结果集类型。 
+ */
 class UserApi {
-    PostLogin(params: LoginParams): Promise<Response<any>> {
+    postLogin(params: LoginParams): Promise<Response<any>> {
         return request.post('/user/login', params);
     }
 
-    GetUserInfo(id: string): Promise<Response<User>> {
+    getUserInfo(id: string): Promise<Response<User>> {
         return request.get('/user/userInfo.json', {id})
             .then(res => {
                 if(res.code === 200){

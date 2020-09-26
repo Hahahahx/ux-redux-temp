@@ -15,7 +15,7 @@ const Main = () => {
                 UserModule - user:name:{UserModule.user.name}
             </div>
             <Button ghost onClick={() => {
-                UserModule.reqUser()
+                UserModule.actionUser()
             }}>ChangeFileModule</Button>
         </div>
     )
