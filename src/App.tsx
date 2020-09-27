@@ -14,9 +14,9 @@ function App() {
             <Routers
                 before={(location) => {
                     console.log(location);
-                    PageModule.actionLocation(location);
                 }}
                 after={(location) => {
+                  PageModule.actionLocation(location);
                 }}
                 routers={routeConfig}
                 noMatch={

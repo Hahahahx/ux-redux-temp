@@ -1,9 +1,9 @@
 {
-  "name": "{{name}}",
+  "name": "name",
   "author": {
-    "name": "{{author}}"
+    "name": "author"
   },
-  "description": "{{description}}",
+  "description": "description",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
