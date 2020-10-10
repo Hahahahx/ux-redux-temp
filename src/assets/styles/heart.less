@@ -1,33 +1,26 @@
-
-.heart{
-    margin-top: -50px;
-    margin-left: 10px;
+@import "./vars.less";
+.heart {
+  margin-top: @margin;
+  margin-left: 10px;
 }
 .heart #pulsar {
-    stroke: rgb(17, 228, 228);
-    transform: scale(0.5);
-    stroke-dasharray: 1000;
+  stroke: rgb(17, 228, 228);
+  transform: scale(0.5);
+  stroke-dasharray: 1000;
 }
 
-.heart .run{
-    -webkit-animation: dash 1s infinite linear forwards;
-    animation: dash 1s infinite linear forwards;
+.heart .run {
+  animation: dash 1s infinite linear forwards;
 }
+
+@number: 800;
+
 /*Animation*/
-
-@-webkit-keyframes dash {
-    from {
-        stroke-dashoffset: 814;
-    }
-    to {
-        stroke-dashoffset: -814;
-    }
-}
 @keyframes dash {
-    from {
-        stroke-dashoffset: 814;
-    }
-    to {
-        stroke-dashoffset: -814;
-    }
+  from {
+    stroke-dashoffset: @number + 14;
+  }
+  to {
+    stroke-dashoffset: -814;
+  }
 }

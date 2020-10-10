@@ -1,22 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "antd";
 import { useModule } from "@/components/Provider/Provider";
 import UserApi from "@/modules/service/UserApi";
+// @ts-ignore
+import less from "less";
 
 const Main = () => {
   const { UserModule, FileModule } = useModule();
 
+
+
+  useEffect(() => {
+    //UserModule.actionUser();
+    console.log('---------')
+    return () => {
+      
+    };
+  }, [])
+
   return (
     <div style={{ textAlign: "center" }}>
       <div className="page">
-        FileModule - fileType:{FileModule.fileType} <br />
-        UserModule - user:name:{UserModule.user.name}
+        {/* FileModule - fileType:{FileModule.fileType} <br />
+        UserModule - user:name:{UserModule.user.name} */}
       </div>
       <Button
         ghost
         onClick={() => {
-          UserApi.getUserInfo("sd");
-          UserModule.actionUser();
+          //UserApi.getUserInfo("sd");
+          FileModule.actionFile()
+          //UserModule.actionUser();
         }}
       >
         ChangeUserModule
@@ -28,7 +41,7 @@ const Main = () => {
           UserApi.getChangeColor().then((res) => {
             var head = document.getElementsByTagName("head")[0];
             var style = document.createElement("style");
-            style.innerText = res.result.res
+            style.innerText = res.result.res;
             head.appendChild(style);
             //console.log(res);
           });
@@ -47,9 +60,10 @@ const Main = () => {
       </Button>
       <Button
         onClick={async () => {
-          const res = await fetch("http://localhost:8080/anything", {
-            headers: { "Access-Control-Allow-Origin": "*" },
-          });
+          //   const res = await fetch("http://localhost:8080/anything", {
+          //     headers: { "Access-Control-Allow-Origin": "*" },
+          //   });
+          console.log(less);
         }}
       >
         Test

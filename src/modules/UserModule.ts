@@ -13,6 +13,8 @@ class UserModule {
             this.user = res.result;
         })
     }
+
+    
 }
 
 

@@ -5,19 +5,19 @@ import {Layout} from 'antd';
 import {PatchLink} from '@/components/RouterContainer/PatchLink';
 import {Heart} from './__Component/Heart';
 import Selection from '@/components/Selection/Selection';
-import { useModule } from '@/components/Provider/Provider';
 
 
 const Index = () => {
 
-    const {UserModule} = useModule();
+    //const {UserModule} = useModule();
 
+    console.log('------------------------')
 
     return (
         <Selection>
             <Layout className='layout'>
-                <div className='logo'>
-                    <div className='text'>{UserModule.user.name}</div>
+                <div className='ux-logo'>
+                    {/* <div className='text'>{UserModule.user.name}</div> */}
                     <Heart/>
                 </div>
                 <div className='bread'>
