@@ -16,7 +16,7 @@ export const Routers: FC<RouterParams> = ({before, after, intercept, routers, no
 
     // 查找父级路由，重定位默认路由
     let fromPath: RegExpMatchArray | null | undefined | string
-        = defaultRouter && defaultRouter.path.match(/^\/[a-z]+/g);
+        = defaultRouter && defaultRouter.path.match(/\/[a-z]+/g);
     if (fromPath) {
         fromPath.pop();
         fromPath = fromPath.length ? fromPath.join('') : '/';
