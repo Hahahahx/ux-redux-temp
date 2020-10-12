@@ -29,7 +29,7 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
 
   const headerType = config.headers["Content-Type"];
 
-  if (config.method === "post") {
+  if (config.method === "post" || config.method === "put") {
     if (headerType === "application/x-www-form-urlencoded") {
       config.data = qs.stringify(
         Object.assign(config.data, { CSRF: getCsrfToken() })

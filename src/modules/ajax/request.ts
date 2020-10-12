@@ -47,10 +47,22 @@ export class request {
         })
     }
 
+    static delete(url: string, params?: Params): Promise<Response<any>> {
+        url += params ? '?' + request.formateObjToParamStr(params) : ''
+        // 直接将结果数据Promise返回
+        return instance.delete(url)
+    }
+
     static post(url: string, params: Params): Promise<Response<any>> {
         // 直接将结果数据Promise返回
         const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
         return instance.post(url, params, { headers })
+    }
+
+    static put(url: string, params: Params): Promise<Response<any>> {
+        // 直接将结果数据Promise返回
+        const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+        return instance.put(url, params, { headers })
     }
 
     static upload(url: string, params: any): Promise<Response<any>> {
